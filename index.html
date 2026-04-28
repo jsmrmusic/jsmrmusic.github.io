@@ -1,1 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JAYSMORE — DJ &amp; Producer</title>
+<meta name="description" content="JAYSMORE — Versatile DJ and producer. From Progressive House to Hard Techno." />
 
+<!-- Google Fonts: Unbounded (display, geometric/futuristic) + Manrope (body, clean) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* ============ TOKENS ============ */
+  :root {
+    --bg: #000000;
+    --bg-elev: #0a0a0a;
+    --bg-card: #0d0d0f;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --text: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.62);
+    --text-faint: rgba(255, 255, 255, 0.38);
+    --accent: #6ea8ff;       /* soft electric blue */
+    --accent-glow: rgba(110, 168, 255, 0.55);
+    --accent-soft: rgba(110, 168, 255, 0.12);
+    --radius: 14px;
+    --maxw: 1280px;
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  /* ============ RESET ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Manrope', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* Subtle grain texture overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+  }
+
+  /* ============ LAYOUT HELPERS ============ */
+  .container {
+    width: 100%;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section {
+    padding: 120px 0;
+    position: relative;
+  }
+
+  .section-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-label::before {
+    content: "";
+    width: 32px;
+    height: 1px;
+    background: var(--line-strong);
+  }
+
+  .section-title {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 22px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    transition: background 0.4s var(--ease), backdrop-filter 0.4s var(--ease), border-color 0.4s var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(14px);
+    border-bottom-color: var(--line);
+  }
+  .nav-brand {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    transition: color 0.3s var(--ease);
+  }
+  .nav-links a:hover { color: var(--text); }
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 140px 0 80px;
+    overflow: hidden;
+  }
+
+  /* Animated gradient backdrop */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .hero-bg::before,
+  .hero-bg::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.45;
+    animation: float 18s ease-in-out infinite;
+  }
+  .hero-bg::before {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(110, 168, 255, 0.35), transparent 70%);
+    top: -120px; left: -160px;
+  }
+  .hero-bg::after {
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(150, 100, 255, 0.22), transparent 70%);
+    bottom: -160px; right: -120px;
+    animation-delay: -9s;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(40px, -30px) scale(1.08); }
+  }
+
+  /* Faint grid lines */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    z-index: 0;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+  }
+  .hero-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  /* Logo image */
+  .hero-logo {
+    width: clamp(280px, 60vw, 720px);
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 40px rgba(110, 168, 255, 0.15));
+  }
+  /* Fallback wordmark if logo missing — hidden by default */
+  .hero-wordmark {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3.5rem, 14vw, 11rem);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    background: linear-gradient(180deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 8px;
+    display: none; /* shown only if image fails */
+  }
+
+  .hero-subtitle {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-top: 24px;
+    margin-bottom: 28px;
+    padding-left: 4px;
+  }
+
+  .hero-tagline {
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+    color: var(--text-dim);
+    max-width: 560px;
+    line-height: 1.5;
+    margin-bottom: 56px;
+    font-weight: 300;
+  }
+  .hero-tagline strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 28px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text);
+    background: rgba(255,255,255,0.02);
+    transition: all 0.4s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-cta:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent-glow);
+  }
+  .hero-cta .arrow {
+    transition: transform 0.4s var(--ease);
+  }
+  .hero-cta:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 2;
+  }
+  .scroll-hint::after {
+    content: "";
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--text-faint), transparent);
+    animation: scrollLine 2.4s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    50.1%{ transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ============ ABOUT ============ */
+  .about {
+    border-top: 1px solid var(--line);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .about-text {
+    font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+    line-height: 1.5;
+    color: var(--text);
+    font-weight: 300;
+    letter-spacing: -0.005em;
+  }
+  .about-text strong {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .about-text .dim {
+    color: var(--text-dim);
+  }
+
+  .genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 40px;
+  }
+  .genre-tag {
+    padding: 8px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    transition: all 0.3s var(--ease);
+  }
+  .genre-tag:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* ============ MUSIC LINKS ============ */
+  .links {
+    border-top: 1px solid var(--line);
+  }
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .link-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 28px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    transition: all 0.4s var(--ease);
+    position: relative;
+    overflow: hidden;
+  }
+  .link-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), var(--accent-soft), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+    pointer-events: none;
+  }
+  .link-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(110, 168, 255, 0.15);
+  }
+  .link-card:hover::before { opacity: 1; }
+
+  .link-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .link-card-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+  }
+  .link-card-name {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .link-card-arrow {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    display: grid;
+    place-items: center;
+    transition: all 0.4s var(--ease);
+    position: relative;
+    z-index: 1;
+  }
+  .link-card:hover .link-card-arrow {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: rotate(-45deg);
+  }
+  .link-card:hover .link-card-arrow svg path {
+    stroke: #000;
+  }
+  .link-card-arrow svg {
+    width: 14px; height: 14px;
+    transition: transform 0.4s var(--ease);
+  }
+  .link-card-arrow svg path {
+    stroke: var(--text);
+    transition: stroke 0.4s var(--ease);
+  }
+
+  /* ============ FEATURED RELEASE ============ */
+  .featured {
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+  .featured-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .featured-bg::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 800px; height: 800px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(110, 168, 255, 0.10), transparent 60%);
+    filter: blur(60px);
+  }
+
+  .featured-card {
+    position: relative;
+    z-index: 1;
+    padding: 56px;
+    background: linear-gradient(180deg, rgba(110, 168, 255, 0.04) 0%, rgba(0,0,0,0) 100%), var(--bg-card);
+    border: 1px solid var(--line-strong);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .featured-card::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.6;
+  }
+  @media (max-width: 720px) {
+    .featured-card { padding: 32px 24px; }
+  }
+
+  .featured-header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .featured-album {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .featured-sub {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .featured-sub::before {
+    content: "";
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .featured-player {
+    margin-top: 8px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #000;
+  }
+  .featured-player iframe {
+    display: block;
+    width: 100%;
+    height: 300px;
+    border: 0;
+  }
+
+  .featured-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding: 16px 24px;
+    background: var(--accent);
+    color: #000;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: all 0.4s var(--ease);
+  }
+  .featured-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent-glow);
+  }
+
+  /* ============ GALLERY ============ */
+  .gallery {
+    border-top: 1px solid var(--line);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  @media (min-width: 720px) {
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  }
+  @media (min-width: 1100px) {
+    .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .gallery-item {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .gallery-item.tall { aspect-ratio: 1 / 1.4; }
+  .gallery-item.wide { aspect-ratio: 1.4 / 1; grid-column: span 2; }
+  @media (max-width: 720px) {
+    .gallery-item.wide { grid-column: span 2; }
+  }
+
+  .gallery-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease), filter 0.7s var(--ease);
+    filter: grayscale(0.3) brightness(0.85);
+  }
+  .gallery-item:hover .gallery-img {
+    transform: scale(1.06);
+    filter: grayscale(0) brightness(1);
+  }
+  .gallery-item::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    pointer-events: none;
+  }
+  .gallery-item:hover::after {
+    border-color: rgba(110, 168, 255, 0.3);
+    box-shadow: inset 0 0 30px rgba(110, 168, 255, 0.08);
+  }
+
+  /* Placeholder gallery items (until real images replace them) */
+  .gallery-placeholder {
+    width: 100%; height: 100%;
+    display: grid;
+    place-items: center;
+    background:
+      linear-gradient(135deg, rgba(110, 168, 255, 0.06), rgba(150, 100, 255, 0.04)),
+      var(--bg-card);
+    color: var(--text-faint);
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    transition: all 0.4s var(--ease);
+  }
+  .gallery-item:hover .gallery-placeholder {
+    color: var(--text);
+    background:
+      linear-gradient(135deg, rgba(110, 168, 255, 0.12), rgba(150, 100, 255, 0.08)),
+      var(--bg-card);
+  }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: 60px 0 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+  }
+  .footer-brand {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+  }
+  .footer-socials {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .footer-socials a {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 500;
+    transition: color 0.3s var(--ease);
+    position: relative;
+  }
+  .footer-socials a:hover { color: var(--text); }
+  .footer-socials a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.4s var(--ease);
+  }
+  .footer-socials a:hover::after { width: 100%; }
+
+  .footer-copy {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    width: 100%;
+    max-width: 200px;
+  }
+
+  /* ============ FADE-IN ON SCROLL ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal.delay-1 { transition-delay: 0.1s; }
+  .reveal.delay-2 { transition-delay: 0.2s; }
+  .reveal.delay-3 { transition-delay: 0.3s; }
+  .reveal.delay-4 { transition-delay: 0.4s; }
+
+  /* Hero entrance — runs immediately */
+  .hero .hero-meta,
+  .hero .hero-logo,
+  .hero .hero-wordmark,
+  .hero .hero-subtitle,
+  .hero .hero-tagline,
+  .hero .hero-cta {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroIn 1.1s var(--ease) forwards;
+  }
+  .hero .hero-meta     { animation-delay: 0.1s; }
+  .hero .hero-logo,
+  .hero .hero-wordmark { animation-delay: 0.25s; }
+  .hero .hero-subtitle { animation-delay: 0.45s; }
+  .hero .hero-tagline  { animation-delay: 0.6s; }
+  .hero .hero-cta      { animation-delay: 0.75s; }
+  @keyframes heroIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ MOBILE TWEAKS ============ */
+  @media (max-width: 720px) {
+    .section { padding: 80px 0; }
+    .hero { padding: 120px 0 100px; }
+    .hero-tagline { margin-bottom: 40px; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="nav-brand">JAYSMORE</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#music">Music</a></li>
+    <li><a href="#release">Release</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-meta">
+      <span class="hero-dot" aria-hidden="true"></span>
+      <span>Chicago — Available for bookings</span>
+    </div>
+
+    <!-- LOGO: replace src with your logo file. Fallback wordmark shows if image missing. -->
+    <img
+      class="hero-logo"
+      src="jaysmore-logo.png"
+      alt="JAYSMORE"
+      onerror="this.style.display='none'; document.getElementById('hero-wordmark').style.display='block';"
+    />
+    <h1 class="hero-wordmark" id="hero-wordmark">JAYSMORE</h1>
+
+    <p class="hero-subtitle">DJ &amp; Producer</p>
+
+    <p class="hero-tagline">
+      <strong>From Progressive House to Hard Techno.</strong><br />
+      <span>Dynamic sound, high-impact sets — built for the floor.</span>
+    </p>
+
+    <a href="#music" class="hero-cta">
+      <span>Listen Now</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">Scroll</div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section class="section about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="section-label">About</div>
+        <h2 class="section-title">Versatile<br />by design.</h2>
+      </div>
+      <div class="reveal delay-1">
+        <p class="about-text">
+          <strong>JAYSMORE</strong> is a versatile DJ and producer delivering energy across genres.
+          <span class="dim">From progressive and electro roots to bass house and hard techno —</span>
+          dynamic sound and high-impact sets crafted for every kind of floor.
+        </p>
+        <div class="genres">
+          <span class="genre-tag">Progressive House</span>
+          <span class="genre-tag">Electro House</span>
+          <span class="genre-tag">Bass House</span>
+          <span class="genre-tag">Hard Techno</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MUSIC LINKS ============ -->
+<section class="section links" id="music">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Listen</div>
+      <h2 class="section-title">Where to find me.</h2>
+    </div>
+
+    <div class="links-grid">
+      <!-- Spotify -->
+      <a class="link-card reveal" href="https://open.spotify.com/artist/4VfK5mAvSQmyp7v0glJPAf" target="_blank" rel="noopener">
+        <div class="link-card-text">
+          <span class="link-card-label">Streaming</span>
+          <span class="link-card-name">Spotify</span>
+        </div>
+        <span class="link-card-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <!-- Apple Music -->
+      <a class="link-card reveal delay-1" href="https://music.apple.com/us/artist/jaysmore/1534540336" target="_blank" rel="noopener">
+        <div class="link-card-text">
+          <span class="link-card-label">Streaming</span>
+          <span class="link-card-name">Apple Music</span>
+        </div>
+        <span class="link-card-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <!-- SoundCloud -->
+      <a class="link-card reveal delay-2" href="https://soundcloud.com/jaehong95" target="_blank" rel="noopener">
+        <div class="link-card-text">
+          <span class="link-card-label">Mixes &amp; Sets</span>
+          <span class="link-card-name">SoundCloud</span>
+        </div>
+        <span class="link-card-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <!-- Instagram -->
+      <a class="link-card reveal delay-3" href="https://www.instagram.com/jay.smore/" target="_blank" rel="noopener">
+        <div class="link-card-text">
+          <span class="link-card-label">Follow</span>
+          <span class="link-card-name">Instagram</span>
+        </div>
+        <span class="link-card-arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED RELEASE ============ -->
+<section class="section featured" id="release">
+  <div class="featured-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Latest Release</div>
+    </div>
+
+    <div class="featured-card reveal delay-1">
+      <div class="featured-header">
+        <h2 class="featured-album">Reignite Vol. 1</h2>
+        <p class="featured-sub">Available on SoundCloud</p>
+      </div>
+
+      <!-- SoundCloud embed -->
+      <div class="featured-player">
+        <iframe
+          allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/jaehong95/sets/reignitevol1&color=%236ea8ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"
+          title="Reignite Vol. 1 — JAYSMORE">
+        </iframe>
+      </div>
+
+      <a class="featured-cta" href="https://soundcloud.com/jaehong95/sets/reignitevol1" target="_blank" rel="noopener">
+        <span>Open in SoundCloud</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="section gallery" id="gallery">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Gallery</div>
+      <h2 class="section-title">In the booth.</h2>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- Replace src on these <img> tags with your real photos. Keep the .gallery-img class. -->
+      <div class="gallery-item reveal">
+        <!-- <img class="gallery-img" src="path/to/photo-1.jpg" alt="JAYSMORE live" /> -->
+        <div class="gallery-placeholder">Photo 01</div>
+      </div>
+      <div class="gallery-item tall reveal delay-1">
+        <!-- <img class="gallery-img" src="path/to/photo-2.jpg" alt="JAYSMORE live" /> -->
+        <div class="gallery-placeholder">Photo 02</div>
+      </div>
+      <div class="gallery-item reveal delay-2">
+        <!-- <img class="gallery-img" src="path/to/photo-3.jpg" alt="JAYSMORE live" /> -->
+        <div class="gallery-placeholder">Photo 03</div>
+      </div>
+      <div class="gallery-item reveal delay-3">
+        <!-- <img class="gallery-img" src="path/to/photo-4.jpg" alt="JAYSMORE live" /> -->
+        <div class="gallery-placeholder">Photo 04</div>
+      </div>
+      <div class="gallery-item wide reveal">
+        <!-- <img class="gallery-img" src="path/to/photo-5.jpg" alt="JAYSMORE live" /> -->
+        <div class="gallery-placeholder">Photo 05</div>
+      </div>
+      <div class="gallery-item reveal delay-1">
+        <!-- <img class="gallery-img" src="path/to/photo-6.jpg" alt="JAYSMORE live" /> -->
+        <div class="gallery-placeholder">Photo 06</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">JAYSMORE</div>
+    <div class="footer-socials">
+      <a href="https://open.spotify.com/artist/4VfK5mAvSQmyp7v0glJPAf" target="_blank" rel="noopener">Spotify</a>
+      <a href="https://music.apple.com/us/artist/jaysmore/1534540336" target="_blank" rel="noopener">Apple Music</a>
+      <a href="https://soundcloud.com/jaehong95" target="_blank" rel="noopener">SoundCloud</a>
+      <a href="https://www.instagram.com/jay.smore/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="footer-copy">© JAYSMORE</div>
+  </div>
+</footer>
+
+<script>
+  // Nav background on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Fade-in reveals via IntersectionObserver
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach((el) => io.observe(el));
+
+  // Mouse-tracked glow on link cards
+  document.querySelectorAll('.link-card').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      const y = ((e.clientY - r.top) / r.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+  });
+</script>
+
+</body>
+</html>
